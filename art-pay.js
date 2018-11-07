@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     iframeStyle.overflowX = 'hidden';
     iframeStyle.overflowY = 'scroll';
     iframeStyle.zIndex = '10000';
-    iframe.src = 'http://192.168.10.12:8920/#!/sbkazpaymentwiz'; // + orderStr
+    iframe.src = 'https://192.168.10.12:8919/#!/sbkazpaymentwiz'; // + orderStr
 
     iframe.setAttribute('allowfullscreen', '');
     iframe.setAttribute('data-offset', scrollTop);
