@@ -12,24 +12,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener('message', function (e) {
     console.log(e);
+    if(e.origin !== 'https://192.168.10.12:8919') {
+      return;
+    }
+    if(e.data === 'close') {
+      closeModal(e);
+    }
   });
-
-  function createCloseElem() {
-    var closeEl = document.createElement('div');
-    closeEl.textContent = 'CLOSE';
-
-    closeEl.style.position = 'fixed';
-    closeEl.style.top = '20px';
-    closeEl.style.right = '100px';
-    closeEl.style.color = '#fff';
-    closeEl.style.fontSize = '28px';
-    closeEl.style.cursor = 'pointer';
-    closeEl.style.fontWeight = '700';
-    closeEl.style.zIndex = '10000000';
-    document.body.insertBefore(closeEl, document.body.firstChild);
-    closeEl.addEventListener('click', closeModal);
-
-  }
 
   function createIframe(order) {
     var iframe       = document.createElement('iframe'),
@@ -55,16 +44,11 @@ document.addEventListener("DOMContentLoaded", function () {
     iframe.setAttribute('data-offset', scrollTop);
 
     document.body.insertBefore(iframe, document.body.firstChild);
-    iframe.addEventListener('load', function () {
-      createCloseElem();
-    });
     return iframe;
   }
 
-  function closeModal(e) {
-    var iframe = document.querySelector('iframe');
-    document.body.removeChild(iframe);
-    document.body.removeChild(e.currentTarget);
+  function closeModal() {
+    document.body.removeChild(document.querySelector('iframe'));
   }
 
 
