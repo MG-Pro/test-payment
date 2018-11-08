@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   };
 
-  window.addEventListener('msg', function (e) {
+  window.addEventListener('message', function (e) {
     console.log(e);
   });
 
