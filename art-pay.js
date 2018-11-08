@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   };
 
+  window.addEventListener('msg', function (e) {
+    console.log(e);
+  });
+
   function createCloseElem() {
     var closeEl = document.createElement('div');
     closeEl.textContent = 'CLOSE';
