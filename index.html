@@ -49,12 +49,24 @@
     .item__img {
       margin: auto;
       max-width: 300px;
-      height: 250px;
+      height: 160px;
       background-color: #a8a8a8;
       box-shadow: inset 0 0 6px 4px black;
     }
     .item__footer {
       text-align: center;
+    }
+    .form-text {
+      text-align: left;
+      color: #303030;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+    .form-input {
+      margin-bottom: 5px;
+      width: 100%;
+      padding: 5px 5px;
+      color: #3e3e3e;
     }
   </style>
   <script src="art-pay.js"></script>
@@ -64,26 +76,47 @@
   <div class="item">
     <div class="item__img"></div>
     <h2 class="item__head">Товар 1</h2>
-    <p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam culpa nostrum possimus praesentium repellendus. Doloremque iste laborum
-      perferendis quibusdam ullam.</p>
-    <div class="item__footer">
-      <button class="art-pay" onclick="artPay({
-          terminalKey: 'EPOS123', // – идентификатор девайса данного мерчента
-          orderId: '0000000', // номер заказа
-          amount: 1652000, // сумма заказа в копейках, 16 520 KZT должно быть указано как 1652000
-          descr: 'Test Order', // описание заказа
-          currency: 'KZT', // Валюта платежа в iso формате
-      },
-      function() { //действие при успешной оплате
-        console.log('Ok');
-        },
-      function () { // действие при неуспешной оплате
-        console.log('Error');
-      }
-      )">Оплатить
-      </button>
+
+    <div class="item__footer" id="form">
+      <form>
+        <p class="form-text">terminalKey</p>
+        <input class="form-input" type="text" name="terminalKey" value="EPOS123">
+        <p class="form-text">orderId</p>
+        <input class="form-input" type="text" name="orderId" value="0000000">
+        <p class="form-text">amount</p>
+        <input class="form-input" type="text" name="amount" value="1652000">
+        <p class="form-text">descr</p>
+        <input class="form-input" type="text" name="descr" value="Test Order">
+        <p class="form-text">currency</p>
+        <input class="form-input" type="text" name="currency" value="KZT">
+        <button class="art-pay" >Оплатить
+        </button>
+      </form>
+
     </div>
   </div>
 </div>
+<script>
+  document.getElementById('form').addEventListener('submit',  function (e) {
+    e.preventDefault();
+    var form = e.target;
+    
+    artPay({
+        terminalKey: form[0].value,
+        orderId: form[1].value,
+        amount: form[2].value,
+        descr: form[3].value,
+        currency: form[4].value,
+      },
+      function() {
+        console.log('Ok');
+      },
+      function () {
+        console.log('Error');
+      }
+    )
+  })
+
+</script>
 </body>
 </html>
