@@ -19,9 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   window.addEventListener('message', function (e) {
-    //if (e.origin !== 'https://192.168.10.12:8920') {
-    //  return;
-    //}
+    if (e.origin !== 'https://192.168.10.12:8920') {
+      return;
+    }
     if (e.data === 'close') {
       closeModal(e);
     }
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     iframeStyle.overflowX = 'hidden';
     iframeStyle.overflowY = 'scroll';
     iframeStyle.zIndex = '10000';
-    iframe.src = 'http://localhost:8919/#!/sbkazpaymentwiz' + orderStr;
+    iframe.src = 'https://192.168.10.12:8920/#!/sbkazpaymentwiz' + orderStr;
 
     iframe.setAttribute('allowfullscreen', '');
     iframe.setAttribute('data-offset', scrollTop);
