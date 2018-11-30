@@ -1,32 +1,50 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-  window.artPay = function (param) {
+  window.artPay = function (param, successCb, errorCb) {
+    if(!param) {
+      console.log('Функция artPay вызвана без обязательных параметров');
+      return;
+    }
     createIframe({
-      prodName: param.prodName,
-      count: param.count,
-      price: param.price,
-      currency: param.currency
+      terminalKey: param.terminalKey,
+      orderId: param.orderId,
+      amount: param.amount,
+      descr: param.descr,
+      currency: param.currency,
+      clientOrigin: location.origin
     });
+    window.successCb = successCb || null;
+    window.errorCb = errorCb || null;
 
   };
 
   window.addEventListener('message', function (e) {
-    console.log(e);
-    if(e.origin !== 'https://192.168.10.12:8920') {
-      return;
-    }
-    if(e.data === 'close') {
+    //if (e.origin !== 'https://192.168.10.12:8920') {
+    //  return;
+    //}
+    if (e.data === 'close') {
       closeModal(e);
+    }
+    if (e.data === 'success' && window.successCb) {
+      successCb(e);
+    }
+    if (e.data === 'error' && window.errorCb) {
+      errorCb(e);
     }
   });
 
   function createIframe(order) {
-    var iframe       = document.createElement('iframe'),
-        iframeStyle  = iframe.style,
-        orderStr     = JSON.stringify(order),
-        scrollLeft   = window.pageXOffset,
-        scrollTop    = window.pageYOffset + 'px',
-        scrollHeight = document.body.scrollHeight;
+    var iframe = document.createElement('iframe'),
+        iframeStyle = iframe.style,
+        scrollLeft = window.pageXOffset,
+        scrollTop = window.pageYOffset + 'px',
+        scrollHeight = document.body.scrollHeight,
+        orderStr = '?';
+
+    for (var item in order) {
+      orderStr += item + '=' + order[item] + '&';
+    }
+    orderStr = encodeURI(orderStr);
 
     iframeStyle.position = 'absolute';
     iframeStyle.width = '100%';
@@ -38,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     iframeStyle.overflowX = 'hidden';
     iframeStyle.overflowY = 'scroll';
     iframeStyle.zIndex = '10000';
-    iframe.src = 'https://192.168.10.12:8920/#!/sbkazpaymentwiz'; // + orderStr
+    iframe.src = 'http://localhost:8919/#!/sbkazpaymentwiz' + orderStr;
 
     iframe.setAttribute('allowfullscreen', '');
     iframe.setAttribute('data-offset', scrollTop);
@@ -50,8 +68,4 @@ document.addEventListener("DOMContentLoaded", function () {
   function closeModal() {
     document.body.removeChild(document.querySelector('iframe'));
   }
-
-
 });
-
-

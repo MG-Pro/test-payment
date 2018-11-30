@@ -15,10 +15,11 @@
     body {
       background-color: #e3efff;
       height: 100%;
+      padding-top: 50px;
     }
     .container {
       max-width: 780px;
-      margin: 50px auto;
+      margin: 0 auto;
       background-color: #ffc3c0;
       padding: 25px;
       box-shadow: 5px 5px rgba(0, 0, 0, 0.24);
@@ -66,13 +67,20 @@
     <p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam culpa nostrum possimus praesentium repellendus. Doloremque iste laborum
       perferendis quibusdam ullam.</p>
     <div class="item__footer">
-      <button>В корзину</button>
       <button class="art-pay" onclick="artPay({
-        prodName: 'Товар 1',
-        count: 1,
-        price: 700,
-        currency: 'руб.',
-      })">Оплатить
+          terminalKey: '000000000', // – идентификатор девайса данного мерчента
+          orderId: '0000000', // номер заказа
+          amount: 1652000, // сумма заказа в копейках, 16 520 KZT должно быть указано как 1652000
+          descr: 'Test Order', // описание заказа
+          currency: 'KZT', // Валюта платежа в iso формате
+      },
+      function() { //действие при успешной оплате
+        console.log('Ok');
+        },
+      function () { // действие при неуспешной оплате
+        console.log('Error');
+      }
+      )">Оплатить
       </button>
     </div>
   </div>
